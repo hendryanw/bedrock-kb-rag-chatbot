@@ -6,7 +6,7 @@ from langchain.retrievers import AmazonKnowledgeBasesRetriever
 from langchain.chains import RetrievalQA
 
 retriever = AmazonKnowledgeBasesRetriever(
-    knowledge_base_id = "YQU7H1FNMA", #configure your knowledge base ID here
+    knowledge_base_id = "", #configure your knowledge base ID here
     retrieval_config = {
         "vectorSearchConfiguration": {
             "numberOfResults": 5
