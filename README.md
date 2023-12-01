@@ -8,7 +8,9 @@
 
 1. Configure Bedrock knowledge base ID within `app/lib.py`
 2. Install requirements `pip install -r requirements.txt`
-2. Run the Streamlit application using
+3. Run the Streamlit application using
     ```
     streamlit run app/app.py
     ```
+
+> **Note:** You can deploy the application as container using the `Dockerfile` included in this repository.
