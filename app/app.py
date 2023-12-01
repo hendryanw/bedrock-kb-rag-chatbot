@@ -1,33 +1,31 @@
-import streamlit as st #all streamlit commands will be available through the "st" alias
-import lib as glib #reference to local lib script
+import streamlit as st 
+import lib as glib
 
-st.set_page_config(page_title="Virtual Assistant Powered by AWS Bedrock Knowledge Base") #HTML title
-st.title("Virtual Assistant Powered by AWS Bedrock Knowledge Base") #page title
+st.set_page_config(page_title="Virtual Assistant Powered by AWS Bedrock Knowledge Base")
+st.title("Virtual Assistant Powered by AWS Bedrock Knowledge Base")
 
-if 'memory' not in st.session_state: #see if the memory hasn't been created yet
-    st.session_state.memory = glib.get_memory() #initialize the memory
+if 'memory' not in st.session_state:
+    st.session_state.memory = glib.get_memory()
 
-if 'chat_history' not in st.session_state: #see if the chat history hasn't been created yet
-    st.session_state.chat_history = [] #initialize the chat history
+if 'chat_history' not in st.session_state:
+    st.session_state.chat_history = []
 
-#Re-render the chat history (Streamlit re-runs this script, so need this to preserve previous chat messages)
-for message in st.session_state.chat_history: #loop through the chat history
-    with st.chat_message(message["role"]): #renders a chat line for the given role, containing everything in the with block
-        st.markdown(message["text"]) #display the chat content
+for message in st.session_state.chat_history:
+    with st.chat_message(message["role"]): 
+        st.markdown(message["text"]) 
 
-input_text = st.chat_input("Chat with your bot here") #display a chat input box
+input_text = st.chat_input("Chat with your bot here") 
 
-if input_text: #run the code in this if block after the user submits a chat message
+if input_text: 
+    with st.chat_message("user"):
+        st.markdown(input_text)
     
-    with st.chat_message("user"): #display a user chat message
-        st.markdown(input_text) #renders the user's latest message
+    st.session_state.chat_history.append({"role":"user", "text":input_text})
     
-    st.session_state.chat_history.append({"role":"user", "text":input_text}) #append the user's latest message to the chat history
-    
-    chat_response = glib.get_rag_chat_response(input_text=input_text, memory=st.session_state.memory) #call the model through the supporting library
+    chat_response = glib.get_rag_chat_response(input_text=input_text, memory=st.session_state.memory)
     answer = chat_response['answer']
-    with st.chat_message("assistant"): #display a bot chat message
-        st.markdown(answer) #display bot's latest response
+    with st.chat_message("assistant"):
+        st.markdown(answer)
         with st.expander("See references"): #display the references
             url_count = 0
             for document in chat_response['source_documents']:
@@ -35,6 +33,4 @@ if input_text: #run the code in this if block after the user submits a chat mess
                 metadata = document.metadata
                 st.markdown('**[**' + f"**{url_count}**" + '**]**' + ' ' + f"**{metadata['location']['s3Location']['uri']}**" + '  \n' + document.page_content)
     
-    st.session_state.chat_history.append({"role":"assistant", "text":answer}) #append the bot's latest message to the chat history
-    
-    
+    st.session_state.chat_history.append({"role":"assistant", "text":answer})

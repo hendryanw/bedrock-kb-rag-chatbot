@@ -6,10 +6,10 @@ from langchain.retrievers import AmazonKnowledgeBasesRetriever
 from langchain.chains import RetrievalQA
 
 retriever = AmazonKnowledgeBasesRetriever(
-    knowledge_base_id = "", #configure your knowledge base ID here
+    knowledge_base_id = "YQU7H1FNMA", #configure your knowledge base ID here
     retrieval_config = {
         "vectorSearchConfiguration": {
-            "numberOfResults": 5 #return 5 results from knowledge base
+            "numberOfResults": 5
         }
     }
 )
@@ -23,15 +23,15 @@ llm = Bedrock(
     model_id="anthropic.claude-instant-v1",
     model_kwargs=model_kwargs)
 
-def get_memory(): #create memory for this chat session
+def get_memory():
     memory = ConversationBufferWindowMemory(
         memory_key = "chat_history", 
         output_key = 'answer',
         k = 10, #number of messages to store in buffer
-        return_messages = True) #maintains a history of previous messages
+        return_messages = True) 
     return memory
     
-def get_rag_chat_response(input_text, memory): #chat client function
+def get_rag_chat_response(input_text, memory):
     conversation_with_retrieval = ConversationalRetrievalChain.from_llm(
         llm, 
         retriever, 
