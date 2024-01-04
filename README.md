@@ -6,7 +6,10 @@
 
 ## Running the Application
 
-1. Configure Bedrock knowledge base ID within `app/lib.py`
+1. Set your Bedrock knowledge base ID(s) using comma-delimited string in `BEDROCK_KB_IDS` environment variable
+    ```
+    export BEDROCK_KB_IDS=ABC1D2EFGH,OPQRSTUVW1
+    ```
 2. Install requirements `pip install -r requirements.txt`
 3. Run the Streamlit application using
     ```
