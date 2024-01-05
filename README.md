@@ -6,9 +6,9 @@
 
 ## Running the Application
 
-1. Set your Bedrock knowledge base ID(s) using comma-delimited string in `BEDROCK_KB_IDS` environment variable
+1. Set your Bedrock knowledge base using comma-delimited string in `BEDROCK_KB_IDS` environment variable. This will be displayed as knowledge base options when you interact with the chatbot. The first 10 characters of each value must be the ID of the knowledge base.
     ```
-    export BEDROCK_KB_IDS=ABC1D2EFGH,OPQRSTUVW1
+    export BEDROCK_KB_IDS="ABC1D2EFGH - ABC Knowledge Base,OPQRSTUVW1 - Others info"
     ```
 2. Install requirements `pip install -r requirements.txt`
 3. Run the Streamlit application using

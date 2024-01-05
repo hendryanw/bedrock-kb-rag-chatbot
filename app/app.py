@@ -2,10 +2,10 @@ import streamlit as st
 import lib as glib
 import os
 
-bedrock_kb_ids = os.environ.get('BEDROCK_KB_IDS').split(',')
+bedrock_kbs = os.environ.get('BEDROCK_KB_IDS').split(',')
 
-st.set_page_config(page_title="Virtual Assistant Powered by AWS Bedrock Knowledge Base")
-st.title("Virtual Assistant Powered by AWS Bedrock Knowledge Base")
+st.set_page_config(page_title="Virtual Assistant Sample Powered by AWS Generative AI")
+st.title("Virtual Assistant Sample Powered by AWS Generative AI")
 
 if 'memory' not in st.session_state:
     st.session_state.memory = glib.get_memory()
@@ -16,7 +16,7 @@ if 'chat_history' not in st.session_state:
 if 'select_kb_disabled' not in st.session_state:
     st.session_state.select_kb_disabled = False
 
-bedrock_kb_id = st.selectbox('Select Bedrock Knowledge Base ID to query', bedrock_kb_ids, disabled=st.session_state.select_kb_disabled)
+bedrock_kb = st.selectbox('Select Bedrock Knowledge Base ID to query', bedrock_kbs, disabled=st.session_state.select_kb_disabled)
 
 for message in st.session_state.chat_history:
     with st.chat_message(message["role"]): 
@@ -26,7 +26,7 @@ input_text = st.chat_input("Chat with your bot here")
 
 if input_text: 
     if 'retriever' not in st.session_state:
-        st.session_state.retriever = glib.get_retriever(bedrock_kb_id)
+        st.session_state.retriever = glib.get_retriever(bedrock_kb[:10])
         st.session_state.select_kb_disabled = True
 
     with st.chat_message("user"):
